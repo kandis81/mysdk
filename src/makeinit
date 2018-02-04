@@ -1,0 +1,19 @@
+
+# Generic Make Rules
+CXXFLAGS  = -g -Wall -MMD -std=c++14
+
+# Extended Make Rules
+DBGFLAGS  = -ggdb -DDEBUG
+
+# Detect source directory
+SRCDIR    = $(shell pwd | sed -r -e 's/(^.*src).*/\1/')
+OUTINC    = $(SRCDIR)/../include
+OUTLIB    = $(SRCDIR)/../lib
+
+# Add all directory in src to includes
+CPPFLAGS += $(foreach dir,$(shell find $(SRCDIR) -type d),-I$(dir))
+
+debug:
+	@make CXXFLAGS="$(CXXFLAGS) $(DBGFLAGS)" release
+	@echo $(CPPFLAGS)
+
